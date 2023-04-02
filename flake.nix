@@ -15,6 +15,7 @@
         devShells.default = pkgs.mkShellNoCC {
           shellHook = ''
             export FLAKESTRAP_CONFIG_PATH=$PWD/example
+            export FLAKESTRAP_STATE_DIR=$PWD/example
           '';
 
           packages = [

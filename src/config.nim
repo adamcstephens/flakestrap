@@ -8,6 +8,7 @@ type
   Config* = object
     flake*: string
     host*: Option[string]
+    once*: Option[bool]
 
 let logger* = newConsoleLogger(fmtstr = "[$datetime] $levelname: ")
 

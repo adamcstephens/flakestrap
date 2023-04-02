@@ -6,7 +6,7 @@ import std/logging
 proc cmd*(command: string): string =
   logger.log(lvlInfo, command)
 
-  let (output, rc) = execCmdEx(command, options = {poUsePath})
+  let (output, rc) = execCmdEx(command, options = {poUsePath, poStdErrToStdOut})
   logger.log(lvlInfo, output)
 
   if rc != 0:
