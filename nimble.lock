@@ -1,16 +1,5 @@
 {
   "version": 2,
-  "packages": {
-    "shell": {
-      "version": "0.5.2",
-      "vcsRevision": "7d362c6d50a58f5cccc1499c30a27007ae57a01f",
-      "url": "https://github.com/Vindaar/shell",
-      "downloadMethod": "git",
-      "dependencies": [],
-      "checksums": {
-        "sha1": "97c3b1298aeb2d5059396f231654aeb4cc202993"
-      }
-    }
-  },
+  "packages": {},
   "tasks": {}
 }

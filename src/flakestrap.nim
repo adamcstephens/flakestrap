@@ -1,11 +1,12 @@
-import shell
+import command
 import config
+import std/os
+import std/strformat
 
 let configData: Config = loadConfig()
 
-let fetchFlake = &"nix flake archive --refresh {configData.flake}"
-let nixosRebuild = &"sudo nixos-rebuild switch --refresh --flake {configData.flake}"
+let user = getEnv("USER", "nobody")
+let sudo = if (user == "root"): "" else: "sudo "
 
-shell:
-  ($fetchFlake)
-  ($nixosRebuild)
+cmd(&"nix flake archive --refresh {configData.flake}")
+cmd(&"{sudo}nixos-rebuild switch --refresh --flake {configData.flake}")

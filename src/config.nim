@@ -24,12 +24,12 @@ proc loadConfig*(): Config =
     elif fileExists(file3):
       result = file3
     else:
-      result = ""
+      logger.log(lvlError, &"Could not find flakestrap.json")
+      quit(1)
 
       return result
 
-  let jsonPath = findFile("/run/flakestrap.json", "/etc/flakestrap.json",
-      &"{configPath}/flakestrap.json")
+  let jsonPath = findFile("/run/flakestrap.json", "/etc/flakestrap.json", &"{configPath}/flakestrap.json")
 
   # Read JSON data from jsonPath and catch an IOError
   var jsonString: string
