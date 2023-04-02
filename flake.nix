@@ -5,11 +5,13 @@
 
   outputs = inputs @ {flake-parts, ...}:
     flake-parts.lib.mkFlake {inherit inputs;} {
-      imports = [
-      ];
-      systems = ["x86_64-linux" "aarch64-darwin"];
+      systems = ["x86_64-linux" "aarch64-linux"];
 
-      perSystem = {pkgs, ...}: {
+      perSystem = {
+        config,
+        pkgs,
+        ...
+      }: {
         devShells.default = pkgs.mkShellNoCC {
           shellHook = ''
             export FLAKESTRAP_CONFIG_PATH=$PWD/example
@@ -20,6 +22,13 @@
             pkgs.nimlsp
           ];
         };
+
+        packages = rec {
+          default = flakestrap;
+          flakestrap = pkgs.callPackage ./nix/package.nix {};
+        };
       };
+
+      flake.nixosModules.default = import ./nix/nixos-module.nix;
     };
 }
