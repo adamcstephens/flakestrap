@@ -1,5 +1,4 @@
 import std/json
-import std/logging
 import std/options
 import std/os
 import std/strformat
@@ -9,8 +8,6 @@ type
     flake*: string
     host*: Option[string]
     once*: Option[bool]
-
-let logger* = newConsoleLogger(fmtstr = "[$datetime] $levelname: ")
 
 # Find which of three files exists
 # Set the path to the first file that exists
@@ -22,7 +19,7 @@ proc findFile(file1, file2, file3: string): string =
   elif fileExists(file3):
     result = file3
   else:
-    logger.log(lvlError, &"Could not find flakestrap.json")
+    echo "Error: Could not find flakestrap.json"
     quit(1)
 
   return result
@@ -37,10 +34,10 @@ proc loadConfig*(): Config =
   # Read JSON data from jsonPath and catch an IOError
   var jsonString: string
   try:
-    logger.log(lvlInfo, &"Reading flakestrap config from {jsonPath}")
+    echo &"Reading flakestrap config from {jsonPath}"
     jsonString = readFile(jsonPath)
   except IOError:
-    echo "Error: Could not read flakestrap.json"
+    stderr.writeLine(&"Error: Could not read {jsonPath}")
     quit(1)
 
   # Parse JSON data

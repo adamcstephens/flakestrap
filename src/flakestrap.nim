@@ -1,7 +1,6 @@
 import command
 import config
 import std/json
-import std/logging
 import std/options
 import std/os
 import std/strformat
@@ -16,7 +15,7 @@ let stateFile = stateDir & "/complete"
 let once = if configData.once.isSome(): configData.once.get() else: false
 
 if once and fileExists(stateFile):
-  logger.log(lvlInfo, "Once flag set and run completed, exiting.")
+  echo "Once flag set and completion file exists, exiting."
   quit(0)
 
 let archive = cmd(&"nix flake archive --json --extra-experimental-features 'nix-command flakes' --refresh {configData.flake}")
@@ -27,7 +26,7 @@ let flakeTarget = archiveStorePath & "#" & (if configData.host.isSome(): configD
 discard cmd(&"{sudo}nixos-rebuild switch --refresh --flake {flakeTarget}")
 
 if once:
-  logger.log(lvlInfo, "Writing completion file since once mode was requested.")
+  echo "Once flag set, writing completion file."
   discard existsOrCreateDir(stateDir)
 
   writeFile(stateFile, "")
